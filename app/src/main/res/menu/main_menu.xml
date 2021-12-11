@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:title="@string/open_folder"
+        android:icon="@drawable/ic_menu_open_folder"
+        app:showAsAction="ifRoom"
+        android:id="@+id/main_menu_open_folder" />
+    <item android:title="@string/open_file"
+        android:icon="@drawable/ic_menu_open_file"
+        app:showAsAction="ifRoom"
+        android:id="@+id/main_menu_open_file" />
+    <item android:id="@+id/main_menu_settings"
+        app:showAsAction="never"
+        android:icon="@drawable/ic_menu_settings"
+        android:title="@string/settings" />
+    <item android:id="@+id/project_about"
+        android:title="@string/about"
+        android:icon="@drawable/ic_menu_about"
+        app:showAsAction="never" />
+</menu>

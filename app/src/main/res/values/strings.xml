@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Media Player</string>
+    <string name="open_folder">Open Folder</string>
+    <string name="open_file">Open File</string>
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
 </resources>
