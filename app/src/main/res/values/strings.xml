@@ -4,4 +4,7 @@
     <string name="open_file">Open File</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
+    <string name="no_audio_files_found">No audio files found</string>
+    <string name="phir_se_ud_chale_song">Phir se ud chale song</string>
+    <string name="show_songs">Show Songs</string>
 </resources>

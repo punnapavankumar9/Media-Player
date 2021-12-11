@@ -3,7 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/PUNNA/AndroidStudioProjects/MediaPlayer/app/src/main/res/layout/activity_main.xml" value="0.3078125" />
+        <entry key="..\:/Users/PUNNA/AndroidStudioProjects/MediaPlayer/app/src/main/res/drawable-anydpi/ic_menu_settings.xml" value="0.18177083333333333" />
+        <entry key="..\:/Users/PUNNA/AndroidStudioProjects/MediaPlayer/app/src/main/res/layout/activity_main.xml" value="0.29333333333333333" />
+        <entry key="..\:/Users/PUNNA/AndroidStudioProjects/MediaPlayer/app/src/main/res/layout/folder_files_list_activity.xml" value="0.3078125" />
+        <entry key="..\:/Users/PUNNA/AndroidStudioProjects/MediaPlayer/app/src/main/res/layout/song_list_item.xml" value="0.25" />
+        <entry key="..\:/Users/PUNNA/AndroidStudioProjects/MediaPlayer/app/src/main/res/menu/main_menu.xml" value="0.1527777777777778" />
       </map>
     </option>
   </component>
