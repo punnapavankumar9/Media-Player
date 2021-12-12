@@ -1,11 +1,17 @@
 package com.example.mediaplayer;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,13 +25,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        handlePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
         Button btnShowSongs = findViewById(R.id.btnShowSongs);
 
         btnShowSongs.setOnClickListener(v ->{
             Intent intent = new Intent(this, SongsListActivity.class);
             startActivity(intent);
         });
-
 
     }
 
@@ -56,4 +63,21 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    public void handlePermission(String perm){
+        if(ContextCompat.checkSelfPermission(this , perm) != PackageManager.PERMISSION_GRANTED){
+            requestPermissionLauncher.launch(perm);
+        }
+    }
+
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+    registerForActivityResult(new ActivityResultContracts.RequestPermission(), result ->{
+        if(result)
+            Log.i("permission", "permission granted");
+        else
+            Log.i("permission", "permission denied");
+    });
+
+
+
 }
