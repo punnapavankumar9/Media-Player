@@ -1,5 +1,6 @@
-package com.example.mediaplayer;
+package com.example.mediaplayer.Activities;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
@@ -9,10 +10,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mediaplayer.Helpers.Song;
+import com.example.mediaplayer.R;
+import com.example.mediaplayer.SongListAdapterRec;
+
 import java.util.ArrayList;
 
 public class SongsListActivity extends AppCompatActivity {
-    ArrayList<String > songs = new ArrayList<>();
+    ArrayList<Song> songs = new ArrayList<>();
+    ArrayList<Uri> songUris = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,17 +27,18 @@ public class SongsListActivity extends AppCompatActivity {
         RecyclerView recyclerViewSongsList = findViewById(R.id.folder_files_list_recycler);
         SongListAdapterRec songListAdapterRec = new SongListAdapterRec(this);
 
+        songUris = this.getIntent().getExtras().getParcelableArrayList("SONG_LIST_URIS");
 
-        songs.add("jhsd aasjdabsd ajsdbajs dahsdbas d");
-        songs.add("jhsd absd ajsdb dsfsdf hsdbas d");
-        songs.add("jhsd aasjda dbajs dsfmns dfsd d");
-        songs.add("jhsd aa   sjda  bsd ajsdba d");
-        songs.add("jhsd aasjdabsd a  jsd  ba d");
+        String lastPath = "";
+        for(int i = 0 ; i < songUris.size(); i++){
+            lastPath = songUris.get(i).getLastPathSegment();
+            songs.add(new Song(lastPath.substring(lastPath.lastIndexOf('/') + 1), "sdhajd asjdjasd ahd", 912839));
+        }
+
+
         songListAdapterRec.setSongs(songs);
         recyclerViewSongsList.setAdapter(songListAdapterRec);
         recyclerViewSongsList.setLayoutManager(new LinearLayoutManager(this));
-
-
 
     }
 }

@@ -12,12 +12,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mediaplayer.Helpers.Song;
+
 import java.util.ArrayList;
 
 public class SongListAdapterRec extends RecyclerView.Adapter<SongListAdapterRec.ViewHolder> {
 
     Context context;
-    ArrayList<String> songs = new ArrayList<>();
+    ArrayList<Song> songs = new ArrayList<>();
 
     public SongListAdapterRec(Context context) {
         this.context = context;
@@ -32,7 +34,7 @@ public class SongListAdapterRec extends RecyclerView.Adapter<SongListAdapterRec.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.txtSongTitleInList.setText(songs.get(position));
+        holder.txtSongTitleInList.setText(songs.get(position).getShortName());
         holder.btnSongInfo.setOnClickListener(v -> {
             Toast.makeText(context, "btn song info has been clicked", Toast.LENGTH_SHORT).show();
         });
@@ -47,7 +49,7 @@ public class SongListAdapterRec extends RecyclerView.Adapter<SongListAdapterRec.
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setSongs(ArrayList<String> songs) {
+    public void setSongs(ArrayList<Song> songs) {
         this.songs = songs;
         notifyDataSetChanged();
     }
