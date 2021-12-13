@@ -2,6 +2,7 @@ package com.example.mediaplayer;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,17 +13,21 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mediaplayer.Helpers.MyMediaPlayer;
 import com.example.mediaplayer.Helpers.Song;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class SongListAdapterRec extends RecyclerView.Adapter<SongListAdapterRec.ViewHolder> {
 
     Context context;
+    MyMediaPlayer mp;
     ArrayList<Song> songs = new ArrayList<>();
 
-    public SongListAdapterRec(Context context) {
+    public SongListAdapterRec(Context context, MyMediaPlayer mp) {
         this.context = context;
+        this.mp = mp;
     }
 
     @NonNull
@@ -36,10 +41,22 @@ public class SongListAdapterRec extends RecyclerView.Adapter<SongListAdapterRec.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.txtSongTitleInList.setText(songs.get(position).getShortName());
         holder.btnSongInfo.setOnClickListener(v -> {
-            Toast.makeText(context, "btn song info has been clicked", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "songs.get(position).getName()", Toast.LENGTH_SHORT).show();
         });
         holder.btnPlayInList.setOnClickListener(v -> {
-            Toast.makeText(context, "btn play song has been clicked", Toast.LENGTH_SHORT).show();
+            if(mp != null && mp.isPlaying()){
+                mp.pause();
+            }
+            try {
+                assert mp != null;
+                mp = null;
+                mp = new MyMediaPlayer();
+                mp.setDataSource(context, songs.get(position).getUri());
+                mp.prepare();
+                mp.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 

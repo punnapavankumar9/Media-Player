@@ -1,5 +1,6 @@
 package com.example.mediaplayer.Helpers;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -7,18 +8,19 @@ import androidx.annotation.NonNull;
 
 public class Song implements Parcelable {
     private String name;
-    private String path;
+    private Uri uri;
     private int length;
 
-    public Song(String name, String path, int length) {
+    public Song(String name, Uri uri, int length) {
         this.name = name;
-        this.path = path;
+        this.uri = uri;
         this.length = length;
     }
 
+
     protected Song(Parcel in) {
         name = in.readString();
-        path = in.readString();
+        uri = in.readParcelable(Uri.class.getClassLoader());
         length = in.readInt();
     }
 
@@ -42,12 +44,12 @@ public class Song implements Parcelable {
         this.name = name;
     }
 
-    public String getPath() {
-        return path;
+    public Uri getUri() {
+        return uri;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setUri(Uri uri) {
+        this.uri = uri;
     }
 
     public int getLength() {
@@ -70,7 +72,7 @@ public class Song implements Parcelable {
     public String toString() {
         return "Song{" +
                 "name='" + name + '\'' +
-                ", path='" + path + '\'' +
+                ", uri='" + uri + '\'' +
                 ", length=" + length +
                 '}';
     }
@@ -83,7 +85,7 @@ public class Song implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
-        dest.writeString(path);
+        Uri.writeToParcel(dest, uri);
         dest.writeInt(length);
     }
 }
