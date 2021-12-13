@@ -40,6 +40,7 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
     ArrayList<Uri> songUris = new ArrayList<>();
     MyMediaPlayer mp = new MyMediaPlayer();
+    Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.main_menu_open_file:
                 Toast.makeText(this, "Open file icon is Clicked", Toast.LENGTH_SHORT).show();
+                handleOpenFile();
                 return true;
             case R.id.main_menu_settings:
                 Toast.makeText(this, "Menu settings icon is clicked", Toast.LENGTH_SHORT).show();
@@ -80,6 +82,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+    private void handleOpenFile() {
+        intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("audio/*");
+        requestOpenFileLauncher.launch(intent);
+    }
+
+    private final ActivityResultLauncher<Intent> requestOpenFileLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result ->{
+        if(result.getResultCode() == Activity.RESULT_OK){
+            assert result.getData() != null;
+            Uri uri = Uri.parse(result.getData().getDataString()) ;
+            songUris.clear();
+            songUris.add(uri);
+            launchSongListActivity();
+        }
+    });
+
     public void handlePermission(String perm){
         if(ContextCompat.checkSelfPermission(this, perm) == PackageManager.PERMISSION_GRANTED){
             Log.i("permission", "permission already granted");
@@ -88,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public void handleOpenFolder(){
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+        intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         requestOpenDocumentTreeLauncher.launch(intent);
     }
@@ -113,17 +133,22 @@ public class MainActivity extends AppCompatActivity {
                     DocumentFile docTree = DocumentFile.fromTreeUri(this, uri);
                     assert docTree != null;
 //                    MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+                    songUris.clear();
                     for(DocumentFile df1 : docTree.listFiles()){
                         if(df1.isFile() && getMimeType(this, df1.getUri())){
                             songUris.add(df1.getUri());
                         }
                     }
-                    Intent newIntent = new Intent(this, SongsListActivity.class);
-                    newIntent.putExtra("SONG_LIST_URIS", songUris);
-                    newIntent.putExtra("MEDIA_PLAYER_OBJECT", mp);
-                    startActivity(newIntent);
+                    launchSongListActivity();
                 }
             });
+
+    private void launchSongListActivity() {
+        Intent newIntent = new Intent(this, SongsListActivity.class);
+        newIntent.putExtra("SONG_LIST_URIS", songUris);
+        newIntent.putExtra("MEDIA_PLAYER_OBJECT", mp);
+        startActivity(newIntent);
+    }
 
     public static Boolean getMimeType(Context context, Uri uri) {
         String extension;
